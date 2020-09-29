@@ -4,7 +4,7 @@ const calculator = {
     displayNumber: '0',
     operator: null,
     firstNumber: null,
-    waitingForSecondNumber: false
+    waitingForSecondNumber: false //kind of flag
 };
 
 const buttons = document.querySelectorAll(".button")
@@ -44,13 +44,33 @@ function handleOperator(operator){
         calculator.displayNumber = '0';
     }
     else {
-        alert("Operator sudah diterapkan, menunggu angka kedua!")
+        alert("Operator sudah diterapkan, menunggu angka kedua!");
     }
 }
 
-//function performCalculation(target.innerText){
-//}
+function performCalculation(){
+    if(calculator.firstNumber == null || calculator.operator == null){
+        alert ("Angka pertama atau operator belum dipilih!");
+        return
+    }
+    let result = 0;
+    if(calculator.operator === '+'){
+        result = parseInt(calculator.firstNumber) + parseInt(calculator.displayNumber);
+    }
+    else {
+        result = parseInt(calculator.firstNumber) - parseInt(calculator.displayNumber);
+    }
 
+    const history = {
+        firstNumber:calculator.firstNumber,
+        secondNumber:calculator.displayNumber,
+        operator:calculator.operator,
+        result:result
+    }
+    putHistory(history);
+    calculator.displayNumber = result;
+    renderHistory();
+}
 
 for (let button of buttons) {
     button.addEventListener('click', function(event) {
@@ -74,12 +94,12 @@ for (let button of buttons) {
             updateDisplay();
             return;
         }
-        /*
+        
         else if(target.classList.contains('equals')){
-            performCalculation(target.innerText);
+            performCalculation();
             updateDisplay();
             return;
-        }*/
+        }
 
         console.log(target);
         inputCalculator(target.innerText);
